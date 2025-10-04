@@ -278,103 +278,222 @@
     <script>
         const cardsData = {
             derek: [
-                {
-                    title: "FICHA 1: Introducción al Pasaje de Mensajes",
-                    slide: "Slide 3",
-                    content: `
-                        <h3>¿Qué es el Pasaje de Mensajes?</h3>
-                        <p>Es un mecanismo de IPC donde los procesos se comunican enviando mensajes explícitos, <span class="highlight">sin compartir memoria</span>.</p>
-                        
-                        <h4>Puntos clave para mencionar:</h4>
-                        <ul>
-                            <li><strong>No usa memoria compartida:</strong> Ideal para sistemas distribuidos (varios servidores)</li>
-                            <li><strong>Comunicación explícita:</strong> Se usan funciones send() y receive()</li>
-                            <li><strong>Sincronización automática:</strong> El sistema puede bloquear procesos cuando sea necesario</li>
-                            <li><strong>Escalable:</strong> Funciona en una o múltiples computadoras</li>
-                        </ul>
+    {
+        title: "FICHA 1: Preparación y Contexto Pre-Exposición",
+        slide: "Antes de Slide 3",
+        content: `
+            <h3>🎯 Antes de empezar tu exposición:</h3>
+            
+            <h4>1. Pregunta de conexión (opcional):</h4>
+            <p>"¿Alguien ha usado WhatsApp hoy? Levanten la mano. Pues eso que acaban de hacer usa pasaje de mensajes"</p>
+            
+            <h4>2. Ponte en contexto del curso:</h4>
+            <div class="tip-box">
+                <strong>Guion sugerido:</strong><br>
+                "En las clases anteriores vieron memoria compartida, semáforos y monitores. Todos esos mecanismos tienen algo en común: los procesos comparten el mismo espacio de memoria. Hoy vamos a ver algo diferente: pasaje de mensajes, donde los procesos NO comparten memoria"
+            </div>
 
-                        <div class="code-simple">send(destino, &mensaje);<br>receive(origen, &mensaje);</div>
+            <h4>3. Por qué es importante (motívalo):</h4>
+            <ul>
+                <li><strong>Sistemas distribuidos:</strong> Internet, la nube, microservicios - TODO usa mensajes</li>
+                <li><strong>Escalabilidad:</strong> Puedes tener procesos en Guatemala, USA y Japón comunicándose</li>
+                <li><strong>Seguridad:</strong> Un proceso no puede corromper la memoria de otro</li>
+            </ul>
 
-                        <div class="tip-box">
-                            <strong>💡 Analogía:</strong> Es como WhatsApp - envías mensaje a alguien específico y esa persona lo recibe cuando puede.
-                        </div>
+            <h4>📊 Estadística que puedes mencionar:</h4>
+            <p>"Según estudios, más del 80% de las aplicaciones modernas usan arquitecturas basadas en mensajes (microservicios, APIs REST, message queues)"</p>
 
-                        <div class="important-box">
-                            <strong>⭐ Ventaja principal:</strong> Elimina condiciones de carrera al no compartir memoria directamente.
-                        </div>
-                    `
-                },
-                {
-                    title: "FICHA 2: Tipos de Comunicación",
-                    slide: "Slide 4",
-                    content: `
-                        <h3>1. Comunicación Directa</h3>
-                        <p>Los procesos se nombran explícitamente entre sí.</p>
-                        
-                        <div class="code-simple">send(P2, mensaje);  // Enviar a P2<br>receive(P1, &mensaje);  // Recibir de P1</div>
-                        
-                        <h4>Características:</h4>
-                        <ul>
-                            <li>Vínculo automático entre procesos</li>
-                            <li>Comunicación uno a uno</li>
-                            <li>Ambos deben conocerse mutuamente</li>
-                            <li>Simple pero poco flexible</li>
-                        </ul>
+            <div class="important-box">
+                <strong>⚠️ Evita decir:</strong><br>
+                • "Esto es obvio" o "Es simple"<br>
+                • "Como todos saben..."<br>
+                • Disculparte por adelantado ("Perdón si esto está confuso")<br>
+                <br>
+                <strong>✅ En su lugar di:</strong><br>
+                • "Veamos esto con un ejemplo"<br>
+                • "La idea principal es..."<br>
+                • Habla con confianza, si te equivocas simplemente corrígete
+            </div>
 
-                        <h3>2. Comunicación Indirecta (Buzones)</h3>
-                        <p>Se usan buzones o puertos como intermediarios.</p>
-                        
-                        <div class="code-simple">send(BuzonA, mensaje);  // Enviar al buzón<br>receive(BuzonA, &mensaje);  // Recibir del buzón</div>
-                        
-                        <h4>Ventajas:</h4>
-                        <ul>
-                            <li>Los procesos no necesitan conocerse</li>
-                            <li>Mayor flexibilidad y desacoplamiento</li>
-                            <li>Varios procesos pueden usar el mismo buzón</li>
-                            <li>Permite comunicación uno a muchos o muchos a uno</li>
-                        </ul>
+            <h4>🎤 Lenguaje corporal:</h4>
+            <ul>
+                <li>Mantén contacto visual con diferentes partes del salón</li>
+                <li>Usa las manos para ilustrar "enviar" y "recibir"</li>
+                <li>Muévete un poco, no te quedes estático</li>
+                <li>Si hay pizarra, dibuja rápidamente: [P1] → mensaje → [P2]</li>
+            </ul>
+        `
+    },
+    {
+        title: "FICHA 2: Profundizando en Primitivas (Slide 3)",
+        slide: "Slide 3 - Contenido Extra",
+        content: `
+            <h3>🔍 Más allá de lo que dice la slide:</h3>
 
-                        <div class="tip-box">
-                            <strong>💡 Analogías:</strong><br>
-                            • Directa = Llamada telefónica (uno a uno)<br>
-                            • Indirecta = Grupo de WhatsApp (varios pueden leer y escribir)
-                        </div>
-                    `
-                },
-                {
-                    title: "FICHA 3: Diagramas Visuales",
-                    slide: "Slide 5",
-                    content: `
-                        <h3>Comunicación Directa - Visual</h3>
-                        <p>Conexión punto a punto: P1 → [mensaje] → P2</p>
-                        <ul>
-                            <li>Es como un cable directo entre dos dispositivos</li>
-                            <li>Nadie más está involucrado</li>
-                            <li>El mensaje viaja directamente</li>
-                        </ul>
+            <h4>1. ¿Por qué send() y receive() son LLAMADAS AL SISTEMA?</h4>
+            <div class="example">
+                <p><strong>Explicación profunda:</strong></p>
+                <p>Una llamada al sistema significa que tu programa le pide AL KERNEL (núcleo del SO) que haga algo. No es código que tú puedas escribir en C/Java directamente.</p>
+                <p><strong>Analogía:</strong> Es como cuando en un restaurant pides comida al mesero. Tú no puedes entrar a la cocina y cocinar (por seguridad). El mesero (kernel) lo hace por ti.</p>
+            </div>
 
-                        <h3>Comunicación Indirecta - Visual</h3>
-                        <p>El buzón está en el centro, varios procesos acceden a él</p>
-                        <ul>
-                            <li>Múltiples procesos pueden enviar al buzón</li>
-                            <li>Múltiples procesos pueden recibir del buzón</li>
-                            <li>El buzón almacena mensajes temporalmente</li>
-                        </ul>
+            <h4>2. Diferencia crítica: Monitores vs Pasaje de Mensajes</h4>
+            <table style="width: 100%; font-size: 14px;">
+                <tr>
+                    <th>Aspecto</th>
+                    <th>Monitores</th>
+                    <th>Pasaje de Mensajes</th>
+                </tr>
+                <tr>
+                    <td>Naturaleza</td>
+                    <td>Construcción del lenguaje</td>
+                    <td>Servicio del SO</td>
+                </tr>
+                <tr>
+                    <td>Memoria</td>
+                    <td>Compartida</td>
+                    <td>Separada</td>
+                </tr>
+                <tr>
+                    <td>Ubicación</td>
+                    <td>Mismo computador</td>
+                    <td>Diferentes computadores posible</td>
+                </tr>
+            </table>
 
-                        <h4>¿Cuándo usar cada tipo?</h4>
-                        <div class="example">
-                            <strong>Directa:</strong> Cliente-servidor específico, comunicación simple<br>
-                            <strong>Indirecta:</strong> Balanceo de carga, múltiples workers, sistemas complejos
-                        </div>
+            <h4>3. El parámetro CUALQUIERA:</h4>
+            <div class="tip-box">
+                <p><strong>Pregunta que probablemente harán:</strong> "¿Por qué querría recibir de CUALQUIERA?"</p>
+                <p><strong>Tu respuesta:</strong></p>
+                <ul>
+                    <li><strong>Servidor web:</strong> No le importa QUÉ cliente envía la petición, solo procesa peticiones</li>
+                    <li><strong>Cola de impresión:</strong> No importa quién mandó el documento, solo hay que imprimirlo</li>
+                    <li><strong>Sistema de tareas:</strong> Un worker toma cualquier tarea disponible</li>
+                </ul>
+            </div>
 
-                        <div class="important-box">
-                            <strong>⚠️ Preguntas comunes:</strong><br>
-                            • "¿Qué pasa si dos reciben del mismo buzón?" → El primero que haga receive lo obtiene<br>
-                            • "¿Quién es dueño del buzón?" → Puede ser un proceso o el sistema operativo
-                        </div>
-                    `
-                }
-            ],
+            <h4>4. ¿Qué pasa "bajo el capó" cuando haces send()?</h4>
+            <ol>
+                <li>Tu proceso hace una syscall (llamada al sistema)</li>
+                <li>El SO copia el mensaje de tu memoria a memoria del kernel</li>
+                <li>El SO verifica que el destino existe</li>
+                <li>El mensaje se coloca en la cola del proceso destino</li>
+                <li>Si el destino está bloqueado esperando, se despierta</li>
+                <li>Tu proceso puede continuar (si es no bloqueante) o esperar (si es bloqueante)</li>
+            </ol>
+
+            <div class="important-box">
+                <strong>💡 Si alguien pregunta sobre RENDIMIENTO:</strong><br>
+                "Copiar el mensaje tiene un costo. Por eso send() es más lento que simplemente escribir en memoria compartida. Pero la ventaja es seguridad y poder trabajar entre máquinas diferentes."
+            </div>
+
+            <h4>5. Comparación con el mundo real:</h4>
+            <div class="example">
+                <strong>Memoria compartida:</strong> Pizarra donde todos escriben → riesgo de que alguien borre lo que escribiste<br>
+                <strong>Pasaje de mensajes:</strong> Cada quien tiene su cuaderno y se pasan notas → nadie puede modificar tu cuaderno
+            </div>
+        `
+    },
+    {
+        title: "FICHA 3: Dominando Comunicación Directa e Indirecta (Slides 4-5)",
+        slide: "Slides 4-5 - Análisis Profundo",
+        content: `
+            <h3>🎯 Cómo hacer que este concepto QUEDE CLARO:</h3>
+
+            <h4>1. Problema real que resuelve la indirecta:</h4>
+            <div class="example">
+                <p><strong>Escenario:</strong> Tienes 3 procesos productores y 2 consumidores.</p>
+                <p><strong>Con comunicación directa:</strong></p>
+                <ul>
+                    <li>Cada productor debe saber el nombre de CADA consumidor</li>
+                    <li>Si agregas un 3er consumidor, debes modificar TODO el código</li>
+                    <li>Código rígido, difícil de mantener</li>
+                </ul>
+                <p><strong>Con comunicación indirecta (buzón):</strong></p>
+                <ul>
+                    <li>Productores envían al buzón "TAREAS"</li>
+                    <li>Consumidores reciben del buzón "TAREAS"</li>
+                    <li>¿Quieres agregar consumidores? Solo créalos, no cambias nada más</li>
+                </ul>
+            </div>
+
+            <h4>2. Casos de uso por tipo:</h4>
+            <table style="width: 100%; font-size: 14px;">
+                <tr>
+                    <th>Usa Directa cuando...</th>
+                    <th>Usa Indirecta cuando...</th>
+                </tr>
+                <tr>
+                    <td>• Relación 1 a 1 fija<br>• Comunicación cliente-servidor simple<br>• Performance crítico</td>
+                    <td>• Múltiples productores/consumidores<br>• Balanceo de carga<br>• Sistemas escalables<br>• Arquitecturas desacopladas</td>
+                </tr>
+            </table>
+
+            <h4>3. Preguntas difíciles y cómo responderlas:</h4>
+            
+            <div class="important-box">
+                <strong>❓ "¿Y si dos procesos reciben del mismo buzón al mismo tiempo?"</strong><br>
+                <strong>Tu respuesta:</strong> "El sistema operativo garantiza que solo UNO reciba cada mensaje específico. Es atómico. Piensen en un dispensador de tickets: dos personas pueden presionar al mismo tiempo, pero cada uno recibe un ticket diferente, no el mismo."
+            </div>
+
+            <div class="important-box">
+                <strong>❓ "¿Los buzones tienen nombre o número?"</strong><br>
+                <strong>Tu respuesta:</strong> "Puede ser ambos, depende del sistema. En UNIX, los buzones pueden ser archivos especiales con nombres. En otros sistemas, pueden ser IDs numéricos. Lo importante es que sea un identificador único."
+            </div>
+
+            <div class="important-box">
+                <strong>❓ "¿Quién puede crear un buzón?"</strong><br>
+                <strong>Tu respuesta:</strong> "Generalmente cualquier proceso con permisos suficientes. Es como crear un archivo. Algunos sistemas tienen buzones pre-definidos del sistema, otros permiten crear dinámicamente."
+            </div>
+
+            <h4>4. Analogía extendida del Call Center:</h4>
+            <div class="tip-box">
+                <p><strong>Para explicar indirecta en detalle:</strong></p>
+                <p>"Imaginen un call center de soporte técnico:"</p>
+                <ul>
+                    <li><strong>Buzón:</strong> Número 1-800-SOPORTE</li>
+                    <li><strong>Productores (clientes):</strong> Llaman al 1-800, no saben quién les atenderá</li>
+                    <li><strong>Consumidores (agentes):</strong> Toman llamadas de la cola, no saben quién llamará</li>
+                    <li><strong>Ventaja:</strong> Puedes contratar más agentes sin cambiar el número de teléfono</li>
+                    <li><strong>Balanceo:</strong> La llamada va al agente disponible</li>
+                </ul>
+            </div>
+
+            <h4>5. Tecnologías reales que usan esto:</h4>
+            <div class="example">
+                <strong>Comunicación Indirecta:</strong><br>
+                • <strong>RabbitMQ:</strong> Sistema de colas de mensajes usado por Instagram, Reddit<br>
+                • <strong>Apache Kafka:</strong> Usado por LinkedIn, Netflix, Uber<br>
+                • <strong>Amazon SQS:</strong> Servicio de colas de AWS<br>
+                • <strong>Redis Pub/Sub:</strong> Sistema de mensajería en tiempo real<br>
+                <br>
+                <strong>Comunicación Directa:</strong><br>
+                • <strong>Sockets TCP:</strong> Conexión directa cliente-servidor<br>
+                • <strong>gRPC:</strong> Framework de Google para comunicación entre servicios<br>
+                • <strong>WebSockets:</strong> Comunicación bidireccional en web
+            </div>
+
+            <h4>6. Diagrama mental para dibujar en pizarra:</h4>
+            <div class="code-simple">
+DIRECTA:
+[Proceso A] ←──────────→ [Proceso B]
+    Ventaja: Rápido
+    Desventaja: Acoplado
+
+INDIRECTA:
+[P1] ──┐
+[P2] ──┼──→ [BUZÓN] ←──┬── [P4]
+[P3] ──┘              └── [P5]
+    Ventaja: Flexible
+    Desventaja: Gestión de buzones
+            </div>
+
+            <div class="tip-box">
+                <strong>🎤 Tip de presentación:</strong> Cuando expliques indirecta, camina físicamente hacia un lado del salón y di "aquí están los productores", luego al centro "aquí el buzón", y al otro lado "aquí los consumidores". El movimiento ayuda a visualizar.
+            </div>
+        `
+    }
+],
             daniel: [
                 {
                     title: "FICHA 4: Sincronización - Bloqueante vs No Bloqueante",
@@ -849,4 +968,5 @@
         }
     </script>
 </body>
+
 </html>
